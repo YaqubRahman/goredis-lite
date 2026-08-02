@@ -13,8 +13,8 @@ func (s *server) Set(ctx context.Context, req *SetRequest) (*SetResponse, error)
 }
 
 func (s *server) Get(ctx context.Context, req *GetRequest) (*GetResponse, error){
-	value := s.store[req.Key]
-	return &GetResponse{Value: value}, nil
+	value, ok := s.store[req.Key]
+	return &GetResponse{Value: value, Ok: ok}, nil
 }
 
 func (s *server) Delete(ctx context.Context, req *DeleteRequest) (*DeleteResponse, error){

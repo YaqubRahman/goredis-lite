@@ -16,9 +16,9 @@ message GetRequest {
     string key = 1;
 }
 
-// fix later - if key is empty or not found
 message GetResponse {
     string value = 1;
+    bool ok = 2;
 }
 
 message  DeleteRequest {

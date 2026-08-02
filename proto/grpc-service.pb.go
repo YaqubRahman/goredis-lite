@@ -161,10 +161,10 @@ func (x *GetRequest) GetKey() string {
 	return ""
 }
 
-// fix later - if key is empty or not found
 type GetResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Value         string                 `protobuf:"bytes,1,opt,name=value,proto3" json:"value,omitempty"`
+	Ok            bool                   `protobuf:"varint,2,opt,name=ok,proto3" json:"ok,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -204,6 +204,13 @@ func (x *GetResponse) GetValue() string {
 		return x.Value
 	}
 	return ""
+}
+
+func (x *GetResponse) GetOk() bool {
+	if x != nil {
+		return x.Ok
+	}
+	return false
 }
 
 type DeleteRequest struct {
@@ -307,9 +314,10 @@ const file_grpc_service_proto_rawDesc = "" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\"\x1e\n" +
 	"\n" +
 	"GetRequest\x12\x10\n" +
-	"\x03key\x18\x01 \x01(\tR\x03key\"#\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\"3\n" +
 	"\vGetResponse\x12\x14\n" +
-	"\x05value\x18\x01 \x01(\tR\x05value\"!\n" +
+	"\x05value\x18\x01 \x01(\tR\x05value\x12\x0e\n" +
+	"\x02ok\x18\x02 \x01(\bR\x02ok\"!\n" +
 	"\rDeleteRequest\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\"*\n" +
 	"\x0eDeleteResponse\x12\x18\n" +
