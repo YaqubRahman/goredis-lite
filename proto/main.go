@@ -1,6 +1,7 @@
-package main
+package proto
 
 import (
+	"kvstore/proto"
 	"log"
 	"net"
 
@@ -13,8 +14,17 @@ func main() {
 		log.Fatal("Error listening", err)
 	}
 
-	server := grpc.NewServer()
+	grpcServer := grpc.NewServer()
 
-	
+	// make will create a real, empty, ready to use map that I can write into
+	// without make, the variable will exist but theres no map behind it
+	kvStore := &server{store: make(map[string]string)}
+
+	proto.RegisterKeyValueServiceServer(grpcServer, kvStore)
+
+	if err := grpcServer.Serve(listener); err != nil{
+		log.Fatal("Erro serving", err)
+	}
+
 
 }
