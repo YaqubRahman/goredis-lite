@@ -6,9 +6,9 @@ Made so I could learn Go, gRPC, and Protocol Buffers.
 
 ## Stack
 
-- **Go** — server and client
-- **gRPC** — service communication
-- **Protocol Buffers** — API contract
+- **Go** - server and client
+- **gRPC** - service communication
+- **Protocol Buffers** - API contract
 
 ## Project structure
 
