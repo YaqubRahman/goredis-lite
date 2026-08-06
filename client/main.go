@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"kvstore/proto"
 	"log"
 
@@ -19,6 +20,20 @@ func main() {
 
 
 	client := proto.NewKeyValueServiceClient(conn)
+
+	_, err = client.Set(context.Background(), &proto.SetRequest{Key: "ninja", Value: "cool"})
+	if err != nil{
+		log.Fatal("Error with set response", err)
+	}
+
+	get, err := client.Get(context.Background(), &proto.GetRequest{Key: "ninja"})
+	if err != nil {
+		log.Fatal("Error with get response", err)
+	}
+
+
+	log.Println("Got value:", get.Value, "found:", get.Ok)
+
 
 }
 
