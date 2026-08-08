@@ -46,6 +46,6 @@ protoc --go_out=. --go-grpc_out=. grpc-service.proto
 
 ## Roadmap
 
-- [ ] Thread-safe map (concurrent access)
+- [x] Thread-safe map (concurrent access)
 - [ ] TTL / key expiry
 - [ ] Persistence to disk
