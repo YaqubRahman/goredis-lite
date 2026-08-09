@@ -4,6 +4,7 @@ import (
 	"context"
 	"kvstore/proto"
 	"log"
+	"sync"
 	"time"
 
 	"google.golang.org/grpc"
@@ -26,10 +27,20 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	_, err = client.Set(ctx, &proto.SetRequest{Key: "ninja", Value: "cool"})
-	if err != nil{
-		log.Fatal("Error with set response", err)
+	var wg sync.WaitGroup
+
+	// Simulating 100 concurrent sets
+	for range 100 {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			_, err = client.Set(ctx, &proto.SetRequest{Key: "ninja", Value: "cool"})
+			if err != nil{
+				log.Println("set error:", err)
+			}
+		}()
 	}
+	wg.Wait()
 
 	get, err := client.Get(ctx, &proto.GetRequest{Key: "ninja"})
 	if err != nil {
