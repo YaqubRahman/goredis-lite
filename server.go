@@ -21,15 +21,18 @@ type server struct {
 func (s *server) Set(ctx context.Context, req *proto.SetRequest) (*proto.SetResponse, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
-	s.store[req.Key] = req.Value
+	s.store[req.Key] = entry{req.Value, time.Now().Add(10 * time.Second)}
 	return &proto.SetResponse{Success: true}, nil
 }
 
 func (s *server) Get(ctx context.Context, req *proto.GetRequest) (*proto.GetResponse, error){
 	s.mu.RLock()
 	defer s.mu.RUnlock()
-	value, ok := s.store[req.Key]
-	return &proto.GetResponse{Value: value, Ok: ok}, nil
+	e, ok := s.store[req.Key]
+	if !ok || time.Now().After(e.expiry){
+		return &proto.GetResponse{Ok: false}, nil
+	}
+	return &proto.GetResponse{Value: e.value, Ok: true}, nil
 }
 
 func (s *server) Delete(ctx context.Context, req *proto.DeleteRequest) (*proto.DeleteResponse, error){

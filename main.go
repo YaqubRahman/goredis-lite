@@ -20,7 +20,7 @@ func main() {
 
 	// make will create a real, empty, ready to use map that I can write into
 	// without make, the variable will exist but theres no map behind it
-	kvStore := &server{store: make(map[string]string)}
+	kvStore := &server{store: make(map[string]entry)}
 
 	proto.RegisterKeyValueServiceServer(grpcServer, kvStore)
 
