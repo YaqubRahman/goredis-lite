@@ -4,12 +4,18 @@ import (
 	"context"
 	"kvstore/proto"
 	"sync"
+	"time"
 )
+
+type entry struct {
+	value string
+	expiry time.Time
+}
 
 type server struct {
 	proto.UnimplementedKeyValueServiceServer
 	mu sync.RWMutex
-	store map[string]string
+	store map[string]entry
 }
 
 func (s *server) Set(ctx context.Context, req *proto.SetRequest) (*proto.SetResponse, error) {
